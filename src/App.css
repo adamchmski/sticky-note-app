@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.myCard {
+  min-width: 200px;
+  min-height: 200px;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-shadow: 3px 4px 8px 4px rgba(0, 0, 0, 0.75);
+  resize: both;
+  overflow: auto;
+}
+
+.first-color {
+  background-color: #26ffe6;
+}
+.second-color {
+  background-color: #e3b5a4;
+}
+.third-color {
+  background-color: #a4b0f5;
+}
+.fourth-color {
+  background-color: #baff29;
+}
