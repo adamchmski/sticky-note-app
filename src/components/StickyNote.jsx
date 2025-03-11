@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
 function StickyNote({ colorClass }) {
   // have location style by dynamic
@@ -6,9 +8,13 @@ function StickyNote({ colorClass }) {
 
   return (
     <div
-      className={`myCard ${colorClass}`}
+      className={`my-card ${colorClass}`}
       style={{ left: "80px", top: "130px" }}
-    ></div>
+    >
+      <div className={`sticky-header ${colorClass}`}>
+        <FontAwesomeIcon icon={faCircleXmark} />
+      </div>
+    </div>
   );
 }
 
