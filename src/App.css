@@ -29,6 +29,26 @@
   filter: brightness(75%);
 }
 
+.delete-btn {
+  margin-right: 5px;
+}
+
+.my-card textarea {
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+  border: none;
+  resize: none;
+  caret-color: white;
+  font-family: inherit;
+  font-weight: 400;
+  flex: 1;
+}
+
+.my-card textarea:focus {
+  outline: none;
+}
+
 .first-color {
   background-color: #26ffe6;
 }
