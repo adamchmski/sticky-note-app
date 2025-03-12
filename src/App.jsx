@@ -12,10 +12,18 @@ function App() {
     setId(id + 1);
   };
 
+  const onDelete = (id) => {
+    setStickies(
+      stickies.filter((sticky) => {
+        return sticky.id !== id;
+      })
+    );
+  };
+
   return (
     <>
       <Menu addSticky={addSticky} />
-      <StickyContainer stickies={stickies} />
+      <StickyContainer stickies={stickies} onDelete={onDelete} />
     </>
   );
 }

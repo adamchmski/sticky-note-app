@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import "./StickyNote.css";
 
-function StickyNote({ colorClass, initialPosition }) {
+function StickyNote({ id, colorClass, initialPosition, onDelete }) {
   // move to front event listener
   // delete event listener
 
@@ -65,7 +65,11 @@ function StickyNote({ colorClass, initialPosition }) {
         className={`sticky-header ${colorClass}`}
         onMouseDown={handleMouseDown}
       >
-        <FontAwesomeIcon className="delete-btn" icon={faCircleXmark} />
+        <FontAwesomeIcon
+          className="delete-btn"
+          icon={faCircleXmark}
+          onClick={() => onDelete(id)}
+        />
       </div>
       <textarea
         className={`${colorClass}`}
