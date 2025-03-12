@@ -3,14 +3,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import "./StickyNote.css";
 
-function StickyNote({ id, colorClass, initialPosition, onDelete }) {
+function StickyNote({
+  id,
+  colorClass,
+  initialPosition,
+  onDelete,
+  maxZIndex,
+  setMaxZIndex,
+}) {
   // move to front event listener
 
   const [isEditable, setIsEditable] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [cardPosition, setCardPosition] = useState(initialPosition);
+  const [zIndex, setZIndex] = useState(maxZIndex);
   const cardRef = useRef(null);
+
+  const moveToFront = () => {
+    setZIndex(maxZIndex);
+    setMaxZIndex(maxZIndex + 1);
+  };
 
   const handleMouseDown = (e) => {
     setStartPosition({ x: e.clientX, y: e.clientY });
@@ -42,7 +55,6 @@ function StickyNote({ id, colorClass, initialPosition, onDelete }) {
 
     document.addEventListener("mousemove", mouseMove);
     document.addEventListener("mouseup", mouseUp);
-    // this.moveToFront();
 
     return () => {
       document.removeEventListener("mousemove", mouseMove);
@@ -57,8 +69,10 @@ function StickyNote({ id, colorClass, initialPosition, onDelete }) {
       style={{
         left: `${cardPosition.x}px`,
         top: `${cardPosition.y}px`,
+        zIndex: zIndex,
       }}
       ref={cardRef}
+      onMouseDown={moveToFront}
     >
       <div
         className={`sticky-header ${colorClass}`}
