@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import StickyContainer from "./components/StickyContainer";
 import Menu from "./components/Menu";
+import Login from "./components/Login";
 
 function App() {
   const [stickies, setStickies] = useState([]);
@@ -22,7 +23,10 @@ function App() {
 
   return (
     <>
-      <Menu addSticky={addSticky} />
+      <header>
+        <Menu addSticky={addSticky} />
+        <Login></Login>
+      </header>
       <StickyContainer stickies={stickies} onDelete={onDelete} />
     </>
   );

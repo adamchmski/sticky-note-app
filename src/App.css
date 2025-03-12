@@ -4,6 +4,13 @@
   box-sizing: border-box;
 }
 
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
 .first-color {
   background-color: #26ffe6;
 }
