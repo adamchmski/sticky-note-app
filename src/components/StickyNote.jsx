@@ -1,21 +1,69 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
 function StickyNote({ colorClass }) {
-  // have location style be dynamic
   // move to front event listener
   // delete event listener
-  // text area event listener
 
   const [isEditable, setIsEditable] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
+  const [cardPosition, setCardPosition] = useState({ x: 80, y: 130 });
+  const cardRef = useRef(null);
+
+  const handleMouseDown = (e) => {
+    setStartPosition({ x: e.clientX, y: e.clientY });
+    setDragging(true);
+  };
+
+  useEffect(() => {
+    if (!dragging) return;
+
+    let distanceFromTop = startPosition.y - cardRef.current.offsetTop;
+    let distanceFromLeft = startPosition.x - cardRef.current.offsetLeft;
+
+    const mouseMove = (e) => {
+      setIsEditable(false);
+
+      let newY =
+        e.clientY - distanceFromTop <= 0 ? 0 : e.clientY - distanceFromTop;
+      let newX =
+        e.clientX - distanceFromLeft <= 0 ? 0 : e.clientX - distanceFromLeft;
+
+      setCardPosition({ x: newX, y: newY });
+      console.log("MOVING");
+      console.log(cardPosition);
+    };
+
+    const mouseUp = (e) => {
+      document.removeEventListener("mousemove", mouseMove);
+      document.removeEventListener("mouseup", mouseUp);
+      setDragging(false);
+    };
+
+    document.addEventListener("mousemove", mouseMove);
+    document.addEventListener("mouseup", mouseUp);
+    // this.moveToFront();
+
+    return () => {
+      console.log("REMOVING EVENT LISTENER");
+      document.removeEventListener("mousemove", mouseMove);
+      document.removeEventListener("mouseup", mouseUp);
+      setDragging(false);
+    };
+  }, [dragging]);
 
   return (
     <div
       className={`my-card ${colorClass}`}
-      style={{ left: "80px", top: "130px" }}
+      style={{ left: `${cardPosition.x}px`, top: `${cardPosition.y}px` }}
+      ref={cardRef}
     >
-      <div className={`sticky-header ${colorClass}`}>
+      <div
+        className={`sticky-header ${colorClass}`}
+        onMouseDown={handleMouseDown}
+      >
         <FontAwesomeIcon className="delete-btn" icon={faCircleXmark} />
       </div>
       <textarea
