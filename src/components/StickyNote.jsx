@@ -88,6 +88,7 @@ function StickyNote({
         readOnly={!isEditable}
         onDoubleClick={() => setIsEditable(true)}
         onBlur={() => setIsEditable(false)}
+        placeholder="Double click to type..."
       ></textarea>
     </div>
   );
