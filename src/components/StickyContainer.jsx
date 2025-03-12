@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import StickyNote from "./StickyNote";
 
-function StickyContainer() {
+function StickyContainer({ stickies }) {
   const [zIndex, setZindex] = useState(1);
   const [initialPosition, setInitialPosition] = useState({ x: 80, y: 130 });
 
-  const colors = ["first-color", "second-color", "third-color", "fourth-color"];
-
-  return colors.map((color) => (
+  return stickies.map(({ color, id }) => (
     <StickyNote
+      key={id}
       colorClass={color}
       initialPosition={{ x: initialPosition.x, y: initialPosition.y }}
     ></StickyNote>

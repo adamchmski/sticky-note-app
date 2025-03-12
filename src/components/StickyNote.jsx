@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import "./StickyNote.css";
@@ -55,7 +55,10 @@ function StickyNote({ colorClass, initialPosition }) {
   return (
     <div
       className={`my-card ${colorClass}`}
-      style={{ left: `${cardPosition.x}px`, top: `${cardPosition.y}px` }}
+      style={{
+        left: `${cardPosition.x}px`,
+        top: `${cardPosition.y}px`,
+      }}
       ref={cardRef}
     >
       <div

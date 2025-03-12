@@ -1,9 +1,7 @@
-import React from "react";
 import "./Menu.css";
 
-function Menu() {
+function Menu({ addSticky }) {
   const handleClick = (e) => {
-    console.log("CLICK");
     if (e.target.tagName === "A") {
       e.preventDefault();
       e.stopPropagation();
@@ -17,16 +15,22 @@ function Menu() {
         <nav className="nav" onClick={handleClick}>
           <ul>
             <li>
-              <a id="first-color"></a>
+              <a id="first-color" onClick={() => addSticky("first-color")}></a>
             </li>
             <li>
-              <a id="second-color"></a>
+              <a
+                id="second-color"
+                onClick={() => addSticky("second-color")}
+              ></a>
             </li>
             <li>
-              <a id="third-color"></a>
+              <a id="third-color" onClick={() => addSticky("third-color")}></a>
             </li>
             <li>
-              <a id="fourth-color"></a>
+              <a
+                id="fourth-color"
+                onClick={() => addSticky("fourth-color")}
+              ></a>
             </li>
           </ul>
         </nav>
