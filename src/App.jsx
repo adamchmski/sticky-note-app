@@ -3,6 +3,7 @@ import "./App.css";
 import StickyContainer from "./components/StickyContainer";
 import Menu from "./components/Menu";
 import Login from "./components/Login";
+import Switch from "./components/Switch";
 
 function App() {
   const [stickies, setStickies] = useState([]);
@@ -25,7 +26,10 @@ function App() {
     <>
       <header>
         <Menu addSticky={addSticky} />
-        <Login></Login>
+        <div className="top-right">
+          <Switch></Switch>
+          <Login></Login>
+        </div>
       </header>
       <StickyContainer stickies={stickies} onDelete={onDelete} />
     </>

@@ -11,6 +11,12 @@ header {
   padding: 10px;
 }
 
+.top-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .first-color {
   background-color: #26ffe6;
 }
