@@ -5,7 +5,6 @@ import "./StickyNote.css";
 
 function StickyNote({ id, colorClass, initialPosition, onDelete }) {
   // move to front event listener
-  // delete event listener
 
   const [isEditable, setIsEditable] = useState(false);
   const [dragging, setDragging] = useState(false);
