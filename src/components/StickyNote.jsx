@@ -2,14 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
-function StickyNote({ colorClass }) {
+function StickyNote({ colorClass, initialPosition }) {
   // move to front event listener
   // delete event listener
 
   const [isEditable, setIsEditable] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
-  const [cardPosition, setCardPosition] = useState({ x: 80, y: 130 });
+  const [cardPosition, setCardPosition] = useState(initialPosition);
   const cardRef = useRef(null);
 
   const handleMouseDown = (e) => {
@@ -32,8 +32,6 @@ function StickyNote({ colorClass }) {
         e.clientX - distanceFromLeft <= 0 ? 0 : e.clientX - distanceFromLeft;
 
       setCardPosition({ x: newX, y: newY });
-      console.log("MOVING");
-      console.log(cardPosition);
     };
 
     const mouseUp = (e) => {
@@ -47,7 +45,6 @@ function StickyNote({ colorClass }) {
     // this.moveToFront();
 
     return () => {
-      console.log("REMOVING EVENT LISTENER");
       document.removeEventListener("mousemove", mouseMove);
       document.removeEventListener("mouseup", mouseUp);
       setDragging(false);
