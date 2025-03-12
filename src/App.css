@@ -4,51 +4,6 @@
   box-sizing: border-box;
 }
 
-.my-card {
-  min-width: 200px;
-  min-height: 200px;
-  border-radius: 5px;
-  cursor: pointer;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  box-shadow: 3px 4px 8px 4px rgba(0, 0, 0, 0.75);
-  resize: both;
-  overflow: auto;
-}
-
-.sticky-header {
-  width: 100%;
-  min-height: 25px;
-  max-height: 25px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  filter: brightness(75%);
-}
-
-.delete-btn {
-  margin-right: 5px;
-}
-
-.my-card textarea {
-  height: 100%;
-  width: 100%;
-  padding: 0 20px;
-  border: none;
-  resize: none;
-  caret-color: white;
-  font-family: inherit;
-  font-weight: 400;
-  flex: 1;
-}
-
-.my-card textarea:focus {
-  outline: none;
-}
-
 .first-color {
   background-color: #26ffe6;
 }

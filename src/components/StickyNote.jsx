@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import "./StickyNote.css";
 
 function StickyNote({ colorClass, initialPosition }) {
   // move to front event listener
