@@ -11,8 +11,6 @@ function StickyNote({
   maxZIndex,
   setMaxZIndex,
 }) {
-  // move to front event listener
-
   const [isEditable, setIsEditable] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
