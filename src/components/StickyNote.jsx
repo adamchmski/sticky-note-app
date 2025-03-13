@@ -46,8 +46,6 @@ function StickyNote({
     };
 
     const mouseUp = (e) => {
-      document.removeEventListener("mousemove", mouseMove);
-      document.removeEventListener("mouseup", mouseUp);
       setDragging(false);
     };
 
