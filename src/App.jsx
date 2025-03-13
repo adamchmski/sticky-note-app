@@ -8,7 +8,6 @@ import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
 function App() {
   const [stickies, setStickies] = useState([]);
-  const [id, setId] = useState(0);
   const { isDarkMode } = useTheme();
 
   const addSticky = async (color) => {
@@ -17,7 +16,6 @@ function App() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          id,
           color,
         }),
       });
@@ -25,7 +23,6 @@ function App() {
       const json = await response.json();
 
       setStickies([...stickies, json.newSticky]);
-      setId(id + 1);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
