@@ -1,7 +1,7 @@
 :root {
   --darkbg: #8f8f8f;
   --btCinza: #f5f5f5;
-  --icons: #2f323a;
+  --dark-mode: #2f323a;
   --branco: #fff;
 }
 
@@ -24,7 +24,7 @@ header {
 }
 
 .dark {
-  background-color: var(--icons);
+  background-color: var(--dark-mode);
 }
 
 .top-right {
