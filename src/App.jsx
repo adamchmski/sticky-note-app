@@ -24,6 +24,17 @@ function App() {
     );
   };
 
+  // Loads saved stickies
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("http://localhost:5170/");
+      const json = await response.json();
+      setStickies(json);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className={isDarkMode ? "app dark" : "app"}>
       <header>
