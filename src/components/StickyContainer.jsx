@@ -3,14 +3,13 @@ import StickyNote from "./StickyNote";
 
 function StickyContainer({ stickies, onDelete }) {
   const [maxZIndex, setMaxZIndex] = useState(1);
-  const [initialPosition, setInitialPosition] = useState({ x: 80, y: 130 });
 
-  return stickies.map(({ color, id }) => (
+  return stickies.map(({ color, id, position }) => (
     <StickyNote
       key={id}
       id={id}
       colorClass={color}
-      initialPosition={{ x: initialPosition.x, y: initialPosition.y }}
+      initialPosition={{ x: position.x, y: position.y }}
       onDelete={onDelete}
       maxZIndex={maxZIndex}
       setMaxZIndex={setMaxZIndex}

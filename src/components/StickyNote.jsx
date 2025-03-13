@@ -18,18 +18,44 @@ function StickyNote({
   const [zIndex, setZIndex] = useState(maxZIndex);
   const cardRef = useRef(null);
 
+  // Handles saving a card to server upon change
+  const saveCard = async () => {
+    try {
+      const response = await fetch("http://localhost:5170/", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: id,
+          color: colorClass,
+          position: cardPosition,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error saving card:", error);
+    }
+  };
+
+  // Handles move to front functionality
   const moveToFront = () => {
     setZIndex(maxZIndex);
     setMaxZIndex(maxZIndex + 1);
   };
 
+  // Handles dragging functionality
   const handleMouseDown = (e) => {
     setStartPosition({ x: e.clientX, y: e.clientY });
     setDragging(true);
   };
 
   useEffect(() => {
-    if (!dragging) return;
+    if (!dragging) {
+      saveCard();
+      return;
+    }
 
     let distanceFromTop = startPosition.y - cardRef.current.offsetTop;
     let distanceFromLeft = startPosition.x - cardRef.current.offsetLeft;
