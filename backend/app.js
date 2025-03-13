@@ -24,20 +24,25 @@ app.post("/", (req, res) => {
 
   const id = uuidv4(); // Generate a unique ID
 
-  const newSticky = { id, color, position: { x: 100, y: 100 }, zIndex: 1 };
+  const newSticky = {
+    id,
+    color,
+    position: { x: 60, y: 110 },
+    size: { height: 0, width: 0 },
+    zIndex: 1,
+  };
   stickies.push(newSticky);
 
   res.status(200).json({ message: "Update successful", newSticky });
 });
 
 app.put("/", (req, res) => {
-  const { id, color, position, zIndex } = req.body;
+  const { id, color, position, size, zIndex } = req.body;
 
   const index = stickies.findIndex((sticky) => sticky.id === id);
 
-  stickies[index] = { id, color, position, zIndex };
+  stickies[index] = { id, color, position, size, zIndex };
 
-  console.log(stickies)
   res.status(200).json({ message: "Update successful" });
 });
 

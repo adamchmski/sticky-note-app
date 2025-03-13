@@ -7,6 +7,7 @@ function StickyNote({
   id,
   colorClass,
   initialPosition,
+  initialSize,
   initialZIndex,
   onDelete,
   maxZIndex,
@@ -16,8 +17,10 @@ function StickyNote({
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [cardPosition, setCardPosition] = useState(initialPosition);
+  const [cardSize, setCardSize] = useState(initialSize);
   const [zIndex, setZIndex] = useState(initialZIndex);
   const cardRef = useRef(null);
+  const resizeTimeout = useRef(null);
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
@@ -29,6 +32,7 @@ function StickyNote({
           id: id,
           color: colorClass,
           position: cardPosition,
+          size: cardSize,
           zIndex: zIndex,
         }),
       });
@@ -87,12 +91,41 @@ function StickyNote({
     };
   }, [dragging]);
 
+  // Handles resize tracking
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+        setCardSize({ width, height });
+      }
+    });
+
+    observer.observe(card);
+
+    return () => {
+      observer.disconnect();
+    }; // Cleanup on unmount
+  }, []);
+
+  // Handles resize saving
+  useEffect(() => {
+    clearTimeout(resizeTimeout.current);
+    resizeTimeout.current = setTimeout(() => {
+      saveCard();
+    }, 500);
+  }, [cardSize]);
+
   return (
     <div
       className={`my-card ${colorClass}`}
       style={{
         left: `${cardPosition.x}px`,
         top: `${cardPosition.y}px`,
+        height: `${cardSize.height}px`,
+        width: `${cardSize.width}px`,
         zIndex: zIndex,
       }}
       ref={cardRef}
