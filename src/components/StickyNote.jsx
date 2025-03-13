@@ -9,6 +9,7 @@ function StickyNote({
   initialPosition,
   initialSize,
   initialZIndex,
+  initialText,
   onDelete,
   maxZIndex,
   setMaxZIndex,
@@ -19,8 +20,10 @@ function StickyNote({
   const [cardPosition, setCardPosition] = useState(initialPosition);
   const [cardSize, setCardSize] = useState(initialSize);
   const [zIndex, setZIndex] = useState(initialZIndex);
+  const [text, setText] = useState(initialText);
   const cardRef = useRef(null);
   const resizeTimeout = useRef(null);
+  const textChangeTimeout = useRef(null);
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
@@ -34,6 +37,7 @@ function StickyNote({
           position: cardPosition,
           size: cardSize,
           zIndex: zIndex,
+          text: text,
         }),
       });
 
@@ -115,8 +119,16 @@ function StickyNote({
     clearTimeout(resizeTimeout.current);
     resizeTimeout.current = setTimeout(() => {
       saveCard();
-    }, 500);
+    }, 250);
   }, [cardSize]);
+
+  const handleTextAreaChange = (e) => {
+    setText(e.target.value);
+    clearTimeout(textChangeTimeout.current);
+    textChangeTimeout.current = setTimeout(() => {
+      saveCard();
+    }, 250);
+  };
 
   return (
     <div
@@ -145,9 +157,11 @@ function StickyNote({
         className={`${colorClass}`}
         type="text"
         readOnly={!isEditable}
+        placeholder="Double click to type..."
         onDoubleClick={() => setIsEditable(true)}
         onBlur={() => setIsEditable(false)}
-        placeholder="Double click to type..."
+        onChange={handleTextAreaChange}
+        defaultValue={initialText}
       ></textarea>
     </div>
   );

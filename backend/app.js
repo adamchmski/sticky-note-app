@@ -37,11 +37,11 @@ app.post("/", (req, res) => {
 });
 
 app.put("/", (req, res) => {
-  const { id, color, position, size, zIndex } = req.body;
+  const { id, color, position, size, zIndex, text } = req.body;
 
   const index = stickies.findIndex((sticky) => sticky.id === id);
 
-  stickies[index] = { id, color, position, size, zIndex };
+  stickies[index] = { id, color, position, size, zIndex, text };
 
   res.status(200).json({ message: "Update successful" });
 });

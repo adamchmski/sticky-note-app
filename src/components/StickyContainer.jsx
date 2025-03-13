@@ -16,7 +16,7 @@ function StickyContainer({ stickies, onDelete }) {
     }
   }, [stickies]);
 
-  return stickies.map(({ color, id, position, size, zIndex }) => (
+  return stickies.map(({ color, id, position, size, zIndex, text }) => (
     <StickyNote
       key={id}
       id={id}
@@ -24,6 +24,7 @@ function StickyContainer({ stickies, onDelete }) {
       initialPosition={{ x: position.x, y: position.y }}
       initialSize={size}
       initialZIndex={zIndex}
+      initialText={text}
       onDelete={onDelete}
       maxZIndex={maxZIndex}
       setMaxZIndex={setMaxZIndex}
