@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 5170;
+const { v4: uuidv4 } = require("uuid");
 
 const stickies = [
   {
@@ -21,6 +22,17 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json(stickies);
+});
+
+app.post("/", (req, res) => {
+  const { color } = req.body;
+
+  const id = uuidv4(); // Generate a unique ID
+
+  const newSticky = { id, color, position: { x: 100, y: 100 } };
+  stickies.push(newSticky);
+
+  res.status(200).json({ message: "Update successful", newSticky });
 });
 
 app.put("/", (req, res) => {

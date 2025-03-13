@@ -11,9 +11,28 @@ function App() {
   const [id, setId] = useState(0);
   const { isDarkMode } = useTheme();
 
-  const addSticky = (color) => {
-    setStickies([...stickies, { color, id }]);
-    setId(id + 1);
+  const addSticky = async (color) => {
+    try {
+      const response = await fetch("http://localhost:5170/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+          color,
+        }),
+      });
+
+      const json = await response.json();
+
+      setStickies([...stickies, json.newSticky]);
+      setId(id + 1);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error saving card:", error);
+    }
   };
 
   const onDelete = (id) => {
