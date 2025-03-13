@@ -7,6 +7,7 @@ function StickyNote({
   id,
   colorClass,
   initialPosition,
+  initialZIndex,
   onDelete,
   maxZIndex,
   setMaxZIndex,
@@ -15,7 +16,7 @@ function StickyNote({
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
   const [cardPosition, setCardPosition] = useState(initialPosition);
-  const [zIndex, setZIndex] = useState(maxZIndex);
+  const [zIndex, setZIndex] = useState(initialZIndex);
   const cardRef = useRef(null);
 
   // Handles saving a card to server upon change
@@ -28,6 +29,7 @@ function StickyNote({
           id: id,
           color: colorClass,
           position: cardPosition,
+          zIndex: zIndex,
         }),
       });
 

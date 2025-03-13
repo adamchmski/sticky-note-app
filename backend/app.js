@@ -3,14 +3,9 @@ const cors = require("cors");
 const app = express();
 const port = 5170;
 const { v4: uuidv4 } = require("uuid");
+const { default: zIndex } = require("@mui/material/styles/zIndex");
 
-const stickies = [
-  {
-    id: 14,
-    color: "third-color",
-    position: { x: 150, y: 200 },
-  },
-];
+const stickies = [];
 
 app.use(
   cors({
@@ -29,20 +24,20 @@ app.post("/", (req, res) => {
 
   const id = uuidv4(); // Generate a unique ID
 
-  const newSticky = { id, color, position: { x: 100, y: 100 } };
+  const newSticky = { id, color, position: { x: 100, y: 100 }, zIndex: 1 };
   stickies.push(newSticky);
 
   res.status(200).json({ message: "Update successful", newSticky });
 });
 
 app.put("/", (req, res) => {
-  const { id, color, position } = req.body;
+  const { id, color, position, zIndex } = req.body;
 
   const index = stickies.findIndex((sticky) => sticky.id === id);
 
-  stickies[index] = { id, color, position };
+  stickies[index] = { id, color, position, zIndex };
 
-  console.log(stickies);
+  console.log(stickies)
   res.status(200).json({ message: "Update successful" });
 });
 
