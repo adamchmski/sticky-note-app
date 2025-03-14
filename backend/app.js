@@ -46,4 +46,13 @@ app.put("/", (req, res) => {
   res.status(200).json({ message: "Update successful" });
 });
 
+app.delete("/", (req, res) => {
+  const id = req.body.id;
+  const index = stickies.findIndex((sticky) => sticky.id === id);
+
+  stickies.splice(index, 1);
+
+  res.status(200).json({ message: "Update successful" });
+});
+
 app.listen(port);

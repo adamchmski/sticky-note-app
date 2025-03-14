@@ -32,12 +32,28 @@ function App() {
     }
   };
 
-  const onDelete = (id) => {
-    setStickies(
-      stickies.filter((sticky) => {
-        return sticky.id !== id;
-      })
-    );
+  const onDelete = async (id) => {
+    try {
+      const response = await fetch("http://localhost:5170/", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      setStickies(
+        stickies.filter((sticky) => {
+          return sticky.id !== id;
+        })
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error saving card:", error);
+    }
   };
 
   // Loads saved stickies
