@@ -9,7 +9,7 @@ const stickies = [];
 
 app.use(
   cors({
-    origin: "https://sticky-note-app-tim2.onrender.com",
+    origin: "https://sticky-note-app-6ljo.onrender.com",
   })
 );
 
