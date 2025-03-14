@@ -12,7 +12,7 @@ function App() {
 
   const addSticky = async (color) => {
     try {
-      const response = await fetch("http://localhost:5170/", {
+      const response = await fetch("https://sticky-note-app-tim2.onrender.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -34,7 +34,7 @@ function App() {
 
   const onDelete = async (id) => {
     try {
-      const response = await fetch("http://localhost:5170/", {
+      const response = await fetch("https://sticky-note-app-tim2.onrender.com", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -59,7 +59,7 @@ function App() {
   // Loads saved stickies
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:5170/");
+      const response = await fetch("https://sticky-note-app-tim2.onrender.com");
       const json = await response.json();
       setStickies(json);
     };

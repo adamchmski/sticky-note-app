@@ -28,7 +28,7 @@ function StickyNote({
   // Handles saving a card to server upon change
   const saveCard = async () => {
     try {
-      const response = await fetch("http://localhost:5170/", {
+      const response = await fetch("https://sticky-note-app-tim2.onrender.com", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
