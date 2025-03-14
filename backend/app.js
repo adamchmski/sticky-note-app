@@ -3,13 +3,12 @@ const cors = require("cors");
 const app = express();
 const port = 5170;
 const { v4: uuidv4 } = require("uuid");
-// const { default: zIndex } = require("@mui/material/styles/zIndex");
 
 const stickies = [];
 
 app.use(
   cors({
-    origin: "https://sticky-note-app-6ljo.onrender.com",
+    origin: "http://localhost:5173",
   })
 );
 
