@@ -5,6 +5,11 @@ import Menu from "./components/Menu";
 import Login from "./components/Login";
 import Switch from "./components/Switch";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
+import {
+  createSticky,
+  deleteSticky,
+  getAllStickies,
+} from "./services/stickyService";
 
 function App() {
   const [stickies, setStickies] = useState([]);
@@ -12,56 +17,31 @@ function App() {
 
   const addSticky = async (color) => {
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          color,
-        }),
-      });
-
-      const json = await response.json();
-
-      setStickies([...stickies, json.newSticky]);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      const response = await createSticky(color);
+      setStickies([...stickies, response.newSticky]);
     } catch (error) {
-      console.error("Error saving card:", error);
+      console.error("Error creating sticky:", error);
     }
   };
 
   const onDelete = async (id) => {
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id,
-        }),
-      });
-
-      setStickies(
-        stickies.filter((sticky) => {
-          return sticky.id !== id;
-        })
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      await deleteSticky(id);
+      setStickies(stickies.filter((sticky) => sticky.id !== id));
     } catch (error) {
-      console.error("Error saving card:", error);
+      console.error("Error deleting sticky:", error);
     }
   };
 
   // Loads saved stickies
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(import.meta.env.VITE_API_URL);
-      const json = await response.json();
-      setStickies(json);
+      try {
+        const data = await getAllStickies();
+        setStickies(data);
+      } catch (error) {
+        console.error("Error loading stickies:", error);
+      }
     };
 
     fetchData();

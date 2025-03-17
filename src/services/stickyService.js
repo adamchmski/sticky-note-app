@@ -1,0 +1,100 @@
+/**
+ * Service for handling sticky note API calls
+ */
+
+/**
+ * Updates a sticky note on the server
+ * @param {Object} stickyData - The sticky note data to update
+ * @param {string} stickyData.id - The sticky note ID
+ * @param {string} stickyData.color - The sticky note color class
+ * @param {Object} stickyData.position - The sticky note position
+ * @param {Object} stickyData.size - The sticky note size
+ * @param {number} stickyData.zIndex - The sticky note z-index
+ * @param {string} stickyData.text - The sticky note text content
+ * @returns {Promise} - The response from the server
+ */
+export const updateSticky = async (stickyData) => {
+  try {
+    const response = await fetch(import.meta.env.VITE_API_URL, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(stickyData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error saving card:", error);
+    throw error;
+  }
+};
+
+/**
+ * Creates a new sticky note
+ * @param {string} color - The color class for the new sticky note
+ * @returns {Promise} - The response from the server with the new sticky note data
+ */
+export const createSticky = async (color) => {
+  try {
+    const response = await fetch(import.meta.env.VITE_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ color }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error creating card:", error);
+    throw error;
+  }
+};
+
+/**
+ * Deletes a sticky note
+ * @param {string} id - The ID of the sticky note to delete
+ * @returns {Promise} - The response from the server
+ */
+export const deleteSticky = async (id) => {
+  try {
+    const response = await fetch(import.meta.env.VITE_API_URL, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error deleting card:", error);
+    throw error;
+  }
+};
+
+/**
+ * Fetches all sticky notes
+ * @returns {Promise} - The response from the server with all sticky notes
+ */
+export const getAllStickies = async () => {
+  try {
+    const response = await fetch(import.meta.env.VITE_API_URL);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error fetching cards:", error);
+    throw error;
+  }
+};

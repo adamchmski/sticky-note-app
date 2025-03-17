@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
+import { updateSticky } from "../services/stickyService";
 import "./StickyNote.css";
 
 function StickyNote({
@@ -28,22 +29,14 @@ function StickyNote({
   // Handles saving a card to server upon change
   const saveCard = async () => {
     try {
-      const response = await fetch(import.meta.env.VITE_API_URL, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: id,
-          color: colorClass,
-          position: cardPosition,
-          size: cardSize,
-          zIndex: zIndex,
-          text: text,
-        }),
+      await updateSticky({
+        id,
+        color: colorClass,
+        position: cardPosition,
+        size: cardSize,
+        zIndex,
+        text,
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
     } catch (error) {
       console.error("Error saving card:", error);
     }
