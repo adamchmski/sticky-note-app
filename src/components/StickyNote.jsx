@@ -23,11 +23,11 @@ function StickyNote({
   const [zIndex, setZIndex] = useState(initialZIndex);
   const [text, setText] = useState(initialText);
   const cardRef = useRef(null);
-  const resizeTimeout = useRef(null);
-  const textChangeTimeout = useRef(null);
+  const saveTimeout = useRef(null);
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
+    console.log("CARD SAVED");
     try {
       await updateSticky({
         id,
@@ -42,10 +42,19 @@ function StickyNote({
     }
   };
 
+  // Debounced save function
+  const debouncedSave = () => {
+    clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(() => {
+      saveCard();
+    }, 300);
+  };
+
   // Handles move to front functionality
   const moveToFront = () => {
     setZIndex(maxZIndex);
     setMaxZIndex(maxZIndex + 1);
+    debouncedSave();
   };
 
   // Handles dragging functionality
@@ -57,7 +66,7 @@ function StickyNote({
 
   useEffect(() => {
     if (!dragging) {
-      saveCard();
+      debouncedSave();
       return;
     }
 
@@ -111,19 +120,22 @@ function StickyNote({
 
   // Handles resize saving
   useEffect(() => {
-    clearTimeout(resizeTimeout.current);
-    resizeTimeout.current = setTimeout(() => {
-      saveCard();
-    }, 250);
+    debouncedSave();
   }, [cardSize]);
 
   const handleTextAreaChange = (e) => {
     setText(e.target.value);
-    clearTimeout(textChangeTimeout.current);
-    textChangeTimeout.current = setTimeout(() => {
-      saveCard();
-    }, 250);
+    debouncedSave();
   };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (saveTimeout.current) {
+        clearTimeout(saveTimeout.current);
+      }
+    };
+  }, []);
 
   return (
     <div
