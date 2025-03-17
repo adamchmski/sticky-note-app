@@ -7,6 +7,7 @@ function StickyContainer({ stickies, onDelete }) {
   // Sets maxZIndex when stickies first load
   useEffect(() => {
     if (stickies.length === 0) {
+      setMaxZIndex(1);
       return;
     }
 

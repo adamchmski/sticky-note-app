@@ -52,8 +52,9 @@ function StickyNote({
 
   // Handles move to front functionality
   const moveToFront = () => {
-    setZIndex(maxZIndex);
-    setMaxZIndex(maxZIndex + 1);
+    const newZIndex = maxZIndex + 1;
+    setZIndex(newZIndex);
+    setMaxZIndex(newZIndex);
     debouncedSave();
   };
 
