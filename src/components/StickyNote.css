@@ -37,6 +37,7 @@
   font-family: inherit;
   font-weight: 400;
   flex: 1;
+  caret-color: black;
 }
 
 .my-card textarea:focus {

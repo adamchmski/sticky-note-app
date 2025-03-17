@@ -11,6 +11,12 @@
   box-sizing: border-box;
 }
 
+body,
+html {
+  -webkit-user-select: none; /* Safari-specific */
+  user-select: none;
+}
+
 header {
   display: flex;
   justify-content: space-between;

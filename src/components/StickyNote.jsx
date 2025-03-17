@@ -59,6 +59,7 @@ function StickyNote({
   const handleMouseDown = (e) => {
     setStartPosition({ x: e.clientX, y: e.clientY });
     setDragging(true);
+    document.body.style.userSelect = "none"; // Disable text highlight when dragging
   };
 
   useEffect(() => {
@@ -83,6 +84,7 @@ function StickyNote({
 
     const mouseUp = (e) => {
       setDragging(false);
+      document.body.style.userSelect = ""; // Enable text highlight when done dragging
     };
 
     document.addEventListener("mousemove", mouseMove);
