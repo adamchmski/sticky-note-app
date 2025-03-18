@@ -13,7 +13,7 @@ app.use(
 
 app.use(express.json());
 
-app.use("/", stickiesRoutes);
-app.use("/users", usersRoutes);
+app.use("/api/stickies", stickiesRoutes);
+app.use("/api/users", usersRoutes);
 
 app.listen(port);

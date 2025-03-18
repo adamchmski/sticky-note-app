@@ -15,11 +15,14 @@
  */
 export const updateSticky = async (stickyData) => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(stickyData),
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/stickies",
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(stickyData),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -39,11 +42,14 @@ export const updateSticky = async (stickyData) => {
  */
 export const createSticky = async (color) => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ color }),
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/stickies",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ color }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -63,11 +69,14 @@ export const createSticky = async (color) => {
  */
 export const deleteSticky = async (id) => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/stickies",
+      {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -86,7 +95,9 @@ export const deleteSticky = async (id) => {
  */
 export const getAllStickies = async () => {
   try {
-    const response = await fetch(import.meta.env.VITE_API_URL);
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/stickies"
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
