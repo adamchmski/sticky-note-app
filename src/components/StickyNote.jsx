@@ -27,6 +27,7 @@ function StickyNote({
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
+    console.log("saveCard");
     try {
       await updateSticky({
         _id,
@@ -49,24 +50,26 @@ function StickyNote({
     }, 300);
   };
 
+  // Saves on sticky note properties state changes
+  useEffect(debouncedSave, [cardPosition, cardSize, zIndex, text]);
+
   // Handles move to front functionality
   const moveToFront = () => {
     const newZIndex = maxZIndex + 1;
     setZIndex(newZIndex);
     setMaxZIndex(newZIndex);
-    debouncedSave();
   };
 
-  // Handles dragging functionality
+  // Starts dragging functionality when header is clicked
   const handleMouseDown = (e) => {
     setStartPosition({ x: e.clientX, y: e.clientY });
     setDragging(true);
     document.body.style.userSelect = "none"; // Disable text highlight when dragging
   };
 
+  // Core logic for dragging functionality
   useEffect(() => {
     if (!dragging) {
-      debouncedSave();
       return;
     }
 
@@ -115,17 +118,12 @@ function StickyNote({
 
     return () => {
       observer.disconnect();
-    }; // Cleanup on unmount
+    };
   }, []);
 
-  // Handles resize saving
-  useEffect(() => {
-    debouncedSave();
-  }, [cardSize]);
-
+  // Handles text area changes
   const handleTextAreaChange = (e) => {
     setText(e.target.value);
-    debouncedSave();
   };
 
   // Cleanup timeout on unmount
