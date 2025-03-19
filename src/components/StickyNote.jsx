@@ -5,7 +5,7 @@ import { updateSticky } from "../services/stickyService";
 import "./StickyNote.css";
 
 function StickyNote({
-  id,
+  _id,
   colorClass,
   initialPosition,
   initialSize,
@@ -27,10 +27,9 @@ function StickyNote({
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
-    console.log("CARD SAVED");
     try {
       await updateSticky({
-        id,
+        _id,
         color: colorClass,
         position: cardPosition,
         size: cardSize,
@@ -158,7 +157,7 @@ function StickyNote({
         <FontAwesomeIcon
           className="delete-btn"
           icon={faCircleXmark}
-          onClick={() => onDelete(id)}
+          onClick={() => onDelete(_id)}
         />
       </div>
       <textarea

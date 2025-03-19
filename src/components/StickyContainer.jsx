@@ -17,10 +17,10 @@ function StickyContainer({ stickies, onDelete }) {
     }
   }, [stickies]);
 
-  return stickies.map(({ color, id, position, size, zIndex, text }) => (
+  return stickies.map(({ color, _id, position, size, zIndex, text }) => (
     <StickyNote
-      key={id}
-      id={id}
+      key={_id}
+      _id={_id}
       colorClass={color}
       initialPosition={{ x: position.x, y: position.y }}
       initialSize={size}

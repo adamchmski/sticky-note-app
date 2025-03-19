@@ -5,7 +5,7 @@
 /**
  * Updates a sticky note on the server
  * @param {Object} stickyData - The sticky note data to update
- * @param {string} stickyData.id - The sticky note ID
+ * @param {string} stickyData._id - The sticky note ID
  * @param {string} stickyData.color - The sticky note color class
  * @param {Object} stickyData.position - The sticky note position
  * @param {Object} stickyData.size - The sticky note size
@@ -64,17 +64,17 @@ export const createSticky = async (color) => {
 
 /**
  * Deletes a sticky note
- * @param {string} id - The ID of the sticky note to delete
+ * @param {string} _id - The ID of the sticky note to delete
  * @returns {Promise} - The response from the server
  */
-export const deleteSticky = async (id) => {
+export const deleteSticky = async (_id) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_API_URL + "/api/stickies",
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ _id }),
       }
     );
 

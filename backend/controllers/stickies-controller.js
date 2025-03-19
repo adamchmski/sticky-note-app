@@ -1,44 +1,44 @@
-const { v4: uuidv4 } = require("uuid");
+const Sticky = require("../models/stickies");
 
-// Stores stickies
-const stickies = [];
-
-exports.getAllStickies = (req, res) => {
-  res.json(stickies);
+exports.getAllStickies = async (req, res) => {
+  const allStickies = await Sticky.find();
+  res.json(allStickies);
 };
 
-exports.createSticky = (req, res) => {
-  const { color } = req.body;
+exports.createSticky = async (req, res) => {
+  const { _id, color } = req.body;
 
-  const id = uuidv4(); // Generate a unique ID
-
-  const newSticky = {
-    id,
+  const newSticky = new Sticky({
     color,
     position: { x: 60, y: 110 },
     size: { height: 0, width: 0 },
     zIndex: 1,
-  };
-  stickies.push(newSticky);
+    text: "",
+  });
+
+  try {
+    await newSticky.save();
+  } catch (err) {
+    console.log(err);
+    return;
+  }
 
   res.status(200).json({ message: "Update successful", newSticky });
 };
 
-exports.updateSticky = (req, res) => {
-  const { id, color, position, size, zIndex, text } = req.body;
+exports.updateSticky = async (req, res) => {
+  const { _id, color, position, size, zIndex, text } = req.body;
 
-  const index = stickies.findIndex((sticky) => sticky.id === id);
-
-  stickies[index] = { id, color, position, size, zIndex, text };
+  await Sticky.findOneAndUpdate(
+    { _id: _id },
+    { color, position, size, zIndex, text }
+  );
 
   res.status(200).json({ message: "Update successful" });
 };
 
-exports.deleteSticky = (req, res) => {
-  const id = req.body.id;
-  const index = stickies.findIndex((sticky) => sticky.id === id);
-
-  stickies.splice(index, 1);
+exports.deleteSticky = async (req, res) => {
+  await Sticky.deleteOne({ _id: req.body._id });
 
   res.status(200).json({ message: "Update successful" });
 };

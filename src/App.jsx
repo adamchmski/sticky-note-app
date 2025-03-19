@@ -24,10 +24,10 @@ function App() {
     }
   };
 
-  const onDelete = async (id) => {
+  const onDelete = async (_id) => {
     try {
-      await deleteSticky(id);
-      setStickies(stickies.filter((sticky) => sticky.id !== id));
+      await deleteSticky(_id);
+      setStickies(stickies.filter((sticky) => sticky._id !== _id));
     } catch (error) {
       console.error("Error deleting sticky:", error);
     }
