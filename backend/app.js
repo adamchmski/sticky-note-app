@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 
 const stickiesRoutes = require("./routes/stickies-routes");
 const usersRoutes = require("./routes/users-routes");
@@ -20,9 +21,7 @@ app.use("/api/stickies", stickiesRoutes);
 app.use("/api/users", usersRoutes);
 
 mongoose
-  .connect(
-    "mongodb+srv://adamchmski:adamchmski123@cluster0.htb5l.mongodb.net/stickies?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     app.listen(port);
   })

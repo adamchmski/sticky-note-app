@@ -27,7 +27,6 @@ function StickyNote({
 
   // Handles saving a card to server upon change
   const saveCard = async () => {
-    console.log("saveCard");
     try {
       await updateSticky({
         _id,
