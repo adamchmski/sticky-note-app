@@ -1,45 +1,54 @@
-const { v4: uuidv4 } = require("uuid");
+const User = require("../models/users");
 
-DUMMY_USERS = [
-  {
-    id: "u1",
-    name: "Adam Chmielewski",
-    email: "test@test.com",
-    password: "testers",
-  },
-];
-
-exports.getUsers = (req, res, next) => {
-  res.json({ users: DUMMY_USERS });
+exports.getUsers = async (req, res, next) => {
+  const users = await User.find();
+  res.json(users);
 };
 
-exports.signUp = (req, res, next) => {
+// Handles signup functionality
+exports.signUp = async (req, res, next) => {
+  // Get new user credentials from the request
   const { name, email, password } = req.body;
 
-  const identifiedUser = DUMMY_USERS.find((u) => u.email === email);
-  if (identifiedUser) {
+  // See if the email already exists in the database
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) throw error;
+  } catch (err) {
+    console.log(err);
     res
       .status(422)
       .json({ error: "There's already an account associated with this email" });
     return;
   }
 
-  const newUser = {
-    id: uuidv4(),
-    name: name,
-    email: email,
-    password: password,
-  };
+  // Create the new user
+  const newUser = new User({
+    name,
+    email,
+    password,
+  });
 
-  DUMMY_USERS.push(newUser);
+  // Save the new user to the database
+  try {
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Error creating user" });
+    return;
+  }
 
+  // Return the new user object
   res.status(201).json({ newUser });
 };
 
-exports.login = (req, res, next) => {
+// Handles login functionality
+exports.login = async (req, res, next) => {
+  // Get login credentials from request
   const { email, password } = req.body;
 
-  const identifiedUser = DUMMY_USERS.find((u) => u.email === email);
+  // Make sure email exists in the database
+  const identifiedUser = await User.findOne({ email });
   if (!identifiedUser || identifiedUser.password !== password) {
     res.status(401).json({ error: "user not found" });
     return;
