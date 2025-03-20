@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-// import Input from "../components/Input";
+import { login } from "../services/userService";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -41,11 +41,15 @@ export default function BasicModal() {
     setPasswordValue(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(nameValue);
-    console.log(emailValue);
-    console.log(passwordValue);
+    try {
+      const response = await login(nameValue, emailValue, passwordValue);
+      console.log(response);
+      handleClose();
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
   };
 
   return (
