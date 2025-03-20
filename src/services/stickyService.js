@@ -40,14 +40,14 @@ export const updateSticky = async (stickyData) => {
  * @param {string} color - The color class for the new sticky note
  * @returns {Promise} - The response from the server with the new sticky note data
  */
-export const createSticky = async (color) => {
+export const createSticky = async (color, creator) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_API_URL + "/api/stickies",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ color }),
+        body: JSON.stringify({ color, creator }),
       }
     );
 

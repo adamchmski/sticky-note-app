@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./App.css";
 import StickyContainer from "./components/StickyContainer";
 import Menu from "./components/Menu";
@@ -14,10 +14,11 @@ import {
 function App() {
   const [stickies, setStickies] = useState([]);
   const { isDarkMode } = useTheme();
+  const creator = useRef("67dba6b53dd1e79343c0cf8e");
 
   const addSticky = async (color) => {
     try {
-      const response = await createSticky(color);
+      const response = await createSticky(color, creator.current);
       setStickies([...stickies, response.newSticky]);
     } catch (error) {
       console.error("Error creating sticky:", error);
@@ -37,7 +38,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAllStickies();
+        const data = await getAllStickies(creator.current);
         setStickies(data);
       } catch (error) {
         console.error("Error loading stickies:", error);
