@@ -8,24 +8,23 @@ exports.getUsers = async (req, res, next) => {
 // Handles signup functionality
 exports.signUp = async (req, res, next) => {
   // Get new user credentials from the request
-  const { name, email, password } = req.body;
+  const { username, password } = req.body;
 
-  // See if the email already exists in the database
+  // See if the username already exists in the database
   try {
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ username });
     if (existingUser) throw error;
   } catch (err) {
     console.log(err);
-    res
-      .status(422)
-      .json({ error: "There's already an account associated with this email" });
+    res.status(422).json({
+      error: "There's already an account associated with this username",
+    });
     return;
   }
 
   // Create the new user
   const newUser = new User({
-    name,
-    email,
+    username,
     password,
   });
 
@@ -45,10 +44,10 @@ exports.signUp = async (req, res, next) => {
 // Handles login functionality
 exports.login = async (req, res, next) => {
   // Get login credentials from request
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  // Make sure email exists in the database
-  const identifiedUser = await User.findOne({ email });
+  // Make sure username exists in the database
+  const identifiedUser = await User.findOne({ username });
   if (!identifiedUser || identifiedUser.password !== password) {
     res.status(401).json({ error: "user not found" });
     return;

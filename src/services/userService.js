@@ -1,11 +1,11 @@
-export const login = async (name, email, password) => {
+export const login = async (username, password) => {
   try {
     const response = await fetch(
       import.meta.env.VITE_API_URL + "/api/users/login",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ username, password }),
       }
     );
 

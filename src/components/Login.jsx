@@ -25,26 +25,21 @@ export default function BasicModal({ setCreator }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [nameValue, setNameValue] = useState("");
-  const [emailValue, setEmailValue] = useState("");
+  const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
 
-  const nameInputHandler = (e) => {
-    setNameValue(e.target.value);
-  };
-
-  const emailInputHandler = (e) => {
-    setEmailValue(e.target.value);
+  const usernameInputHandler = (e) => {
+    setUsernameValue(e.target.value);
   };
 
   const passwordInputHandler = (e) => {
     setPasswordValue(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await login(nameValue, emailValue, passwordValue);
+      const response = await login(usernameValue, passwordValue);
       setCreator(response);
       handleClose();
     } catch (error) {
@@ -70,23 +65,14 @@ export default function BasicModal({ setCreator }) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Login
           </Typography>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name:</label>
+          <form onSubmit={handleLogin}>
+            <label htmlFor="username">Username:</label>
             <input
-              id="name"
-              type="text"
-              name="name"
-              onChange={nameInputHandler}
-              value={nameValue}
-            ></input>
-            <br />
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              onChange={emailInputHandler}
-              value={emailValue}
+              id="username"
+              type="username"
+              name="username"
+              onChange={usernameInputHandler}
+              value={usernameValue}
             ></input>
             <br />
             <label htmlFor="password">Password:</label>
