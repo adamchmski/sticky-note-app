@@ -109,3 +109,26 @@ export const getAllStickies = async () => {
     throw error;
   }
 };
+
+export const getUserStickies = async (creator) => {
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_API_URL + "/api/stickies/userStickies",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ creator }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching cards:", error);
+    throw error;
+  }
+};

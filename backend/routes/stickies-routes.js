@@ -6,6 +6,8 @@ router.get("", stickiesController.getAllStickies);
 
 router.post("", stickiesController.createSticky);
 
+router.post("/userStickies", stickiesController.getUserStickies);
+
 router.put("", stickiesController.updateSticky);
 
 router.delete("", stickiesController.deleteSticky);

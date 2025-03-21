@@ -54,7 +54,5 @@ exports.login = async (req, res, next) => {
     return;
   }
 
-  console.log(identifiedUser);
-
   res.json({ message: "Logged in!", user: identifiedUser });
 };

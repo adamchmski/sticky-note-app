@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal({ setCreator }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,7 +45,7 @@ export default function BasicModal() {
     e.preventDefault();
     try {
       const response = await login(nameValue, emailValue, passwordValue);
-      console.log(response);
+      setCreator(response);
       handleClose();
     } catch (error) {
       console.error("Error logging in:", error);

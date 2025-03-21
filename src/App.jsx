@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import StickyContainer from "./components/StickyContainer";
 import Menu from "./components/Menu";
@@ -9,16 +9,17 @@ import {
   createSticky,
   deleteSticky,
   getAllStickies,
+  getUserStickies,
 } from "./services/stickyService";
 
 function App() {
   const [stickies, setStickies] = useState([]);
   const { isDarkMode } = useTheme();
-  const creator = useRef("67dba6b53dd1e79343c0cf8e");
+  const [creator, setCreator] = useState("67dcadb07fbbf999d11377e5");
 
   const addSticky = async (color) => {
     try {
-      const response = await createSticky(color, creator.current);
+      const response = await createSticky(color, creator);
       setStickies([...stickies, response.newSticky]);
     } catch (error) {
       console.error("Error creating sticky:", error);
@@ -38,7 +39,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getAllStickies(creator.current);
+        const data = await getUserStickies(creator);
         setStickies(data);
       } catch (error) {
         console.error("Error loading stickies:", error);
@@ -46,7 +47,7 @@ function App() {
     };
 
     fetchData();
-  }, []);
+  }, [creator]);
 
   return (
     <div className={isDarkMode ? "app dark" : "app"}>
@@ -54,7 +55,7 @@ function App() {
         <Menu addSticky={addSticky} />
         <div className="top-right">
           <Switch />
-          <Login />
+          <Login setCreator={setCreator} />
         </div>
       </header>
       <StickyContainer stickies={stickies} onDelete={onDelete} />

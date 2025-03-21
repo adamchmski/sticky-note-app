@@ -14,7 +14,7 @@ export const login = async (name, email, password) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.user._id;
   } catch (error) {
     console.error("Error creating card:", error);
     throw error;

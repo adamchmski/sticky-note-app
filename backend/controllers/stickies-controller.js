@@ -8,6 +8,11 @@ exports.getAllStickies = async (req, res) => {
   res.json(allStickies);
 };
 
+exports.getUserStickies = async (req, res) => {
+  const userStickies = await Sticky.find({ creator: req.body.creator });
+  res.json(userStickies);
+};
+
 // Create a new sticky and add it to the database
 exports.createSticky = async (req, res) => {
   const { _id, color, creator } = req.body;
