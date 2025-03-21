@@ -67,7 +67,7 @@ export default function BasicModal({ setCreatorID }) {
         onClick={handleOpen}
         style={{ margin: "20px", fontSize: "1.1rem" }}
       >
-        {username === "" ? "Login" : username}
+        {username === "" ? "Login / Signup" : username}
       </Button>
       <Modal
         open={open}
