@@ -89,27 +89,6 @@ export const deleteSticky = async (_id) => {
   }
 };
 
-/**
- * Fetches all sticky notes
- * @returns {Promise} - The response from the server with all sticky notes
- */
-export const getAllStickies = async () => {
-  try {
-    const response = await fetch(
-      import.meta.env.VITE_API_URL + "/api/stickies"
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error fetching cards:", error);
-    throw error;
-  }
-};
-
 export const getUserStickies = async (creator) => {
   try {
     const response = await fetch(

@@ -8,7 +8,6 @@ import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import {
   createSticky,
   deleteSticky,
-  getAllStickies,
   getUserStickies,
 } from "./services/stickyService";
 
