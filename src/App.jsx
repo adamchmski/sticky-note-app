@@ -15,11 +15,11 @@ import {
 function App() {
   const [stickies, setStickies] = useState([]);
   const { isDarkMode } = useTheme();
-  const [creator, setCreator] = useState("67dcadb07fbbf999d11377e5");
+  const [creatorID, setCreatorID] = useState("");
 
   const addSticky = async (color) => {
     try {
-      const response = await createSticky(color, creator);
+      const response = await createSticky(color, creatorID);
       setStickies([...stickies, response.newSticky]);
     } catch (error) {
       console.error("Error creating sticky:", error);
@@ -37,9 +37,12 @@ function App() {
 
   // Loads saved stickies
   useEffect(() => {
+    if (creatorID === "") {
+      return;
+    }
     const fetchData = async () => {
       try {
-        const data = await getUserStickies(creator);
+        const data = await getUserStickies(creatorID);
         setStickies(data);
       } catch (error) {
         console.error("Error loading stickies:", error);
@@ -47,7 +50,7 @@ function App() {
     };
 
     fetchData();
-  }, [creator]);
+  }, [creatorID]);
 
   return (
     <div className={isDarkMode ? "app dark" : "app"}>
@@ -55,7 +58,7 @@ function App() {
         <Menu addSticky={addSticky} />
         <div className="top-right">
           <Switch />
-          <Login setCreator={setCreator} />
+          <Login creatorID={creatorID} setCreatorID={setCreatorID} />
         </div>
       </header>
       <StickyContainer stickies={stickies} onDelete={onDelete} />

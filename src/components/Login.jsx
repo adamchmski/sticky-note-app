@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { login } from "../services/userService";
+import { login, signup } from "../services/userService";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -21,12 +21,13 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({ setCreator }) {
+export default function BasicModal({ setCreatorID }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [usernameValue, setUsernameValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
+  const [username, setUsername] = useState("");
 
   const usernameInputHandler = (e) => {
     setUsernameValue(e.target.value);
@@ -40,10 +41,23 @@ export default function BasicModal({ setCreator }) {
     e.preventDefault();
     try {
       const response = await login(usernameValue, passwordValue);
-      setCreator(response);
+      setCreatorID(response.user._id);
+      setUsername(response.user.username);
       handleClose();
     } catch (error) {
       console.error("Error logging in:", error);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await signup(usernameValue, passwordValue);
+      setCreatorID(response._id);
+      setUsername(response.username);
+      handleClose();
+    } catch (error) {
+      console.error("Error signing up:", error);
     }
   };
 
@@ -53,7 +67,7 @@ export default function BasicModal({ setCreator }) {
         onClick={handleOpen}
         style={{ margin: "20px", fontSize: "1.1rem" }}
       >
-        Login
+        {username === "" ? "Login" : username}
       </Button>
       <Modal
         open={open}
@@ -84,7 +98,12 @@ export default function BasicModal({ setCreator }) {
               value={passwordValue}
             ></input>
             <br />
-            <button type="submit">Submit</button>
+            <button type="button" onClick={handleLogin}>
+              Login
+            </button>
+            <button type="button" onClick={handleSignup}>
+              Sign Up
+            </button>
           </form>
         </Box>
       </Modal>

@@ -1,10 +1,5 @@
 const User = require("../models/users");
 
-exports.getUsers = async (req, res, next) => {
-  const users = await User.find();
-  res.json(users);
-};
-
 // Handles signup functionality
 exports.signUp = async (req, res, next) => {
   // Get new user credentials from the request
@@ -29,8 +24,9 @@ exports.signUp = async (req, res, next) => {
   });
 
   // Save the new user to the database
+  let databaseNewUser;
   try {
-    await newUser.save();
+    databaseNewUser = await newUser.save();
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Error creating user" });
@@ -38,7 +34,7 @@ exports.signUp = async (req, res, next) => {
   }
 
   // Return the new user object
-  res.status(201).json({ newUser });
+  res.status(201).json(databaseNewUser);
 };
 
 // Handles login functionality
