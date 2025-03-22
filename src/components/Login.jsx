@@ -41,8 +41,8 @@ export default function BasicModal({ setCreatorID }) {
     e.preventDefault();
     try {
       const response = await login(usernameValue, passwordValue);
-      setCreatorID(response.user._id);
-      setUsername(response.user.username);
+      setCreatorID(response.userID);
+      setUsername(response.username);
       handleClose();
     } catch (error) {
       console.error("Error logging in:", error);
@@ -53,7 +53,7 @@ export default function BasicModal({ setCreatorID }) {
     e.preventDefault();
     try {
       const response = await signup(usernameValue, passwordValue);
-      setCreatorID(response._id);
+      setCreatorID(response.userID);
       setUsername(response.username);
       handleClose();
     } catch (error) {

@@ -48,8 +48,22 @@ exports.signUp = async (req, res, next) => {
     return res.status(500).json({ error: "Error creating user" });
   }
 
+  let token;
+  token = jwt.sign(
+    {
+      userID: databaseNewUser._id,
+      username: databaseNewUser.username,
+    },
+    "supersecret_dont_share",
+    { expiresIn: "1h" }
+  );
+
   // Return the new user object
-  return res.status(201).json(databaseNewUser);
+  return res.status(201).json({
+    userID: databaseNewUser._id,
+    username: databaseNewUser.username,
+    token: token,
+  });
 };
 
 // Handles login functionality
@@ -77,7 +91,21 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    return res.json({ message: "Logged in!", user: identifiedUser });
+    let token;
+    token = jwt.sign(
+      {
+        userID: identifiedUser._id,
+        username: identifiedUser.username,
+      },
+      "supersecret_dont_share",
+      { expiresIn: "1h" }
+    );
+
+    return res.json({
+      userID: identifiedUser._id,
+      username: identifiedUser.username,
+      token: token,
+    });
   } catch (error) {
     console.error("Login error:", error);
     return res.status(500).json({ error: "Server error: please try again" });
