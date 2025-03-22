@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
 // Handles signup functionality
@@ -8,33 +10,46 @@ exports.signUp = async (req, res, next) => {
   // See if the username already exists in the database
   try {
     const existingUser = await User.findOne({ username });
-    if (existingUser) throw error;
-  } catch (err) {
-    console.log(err);
-    res.status(422).json({
-      error: "There's already an account associated with this username",
+    if (existingUser) {
+      return res.status(422).json({
+        error: "There's already an account associated with this username",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Server error",
     });
-    return;
+  }
+
+  // Hash password
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      error: "Could not create a user",
+    });
   }
 
   // Create the new user
   const newUser = new User({
     username,
-    password,
+    password: hashedPassword,
   });
 
   // Save the new user to the database
   let databaseNewUser;
   try {
     databaseNewUser = await newUser.save();
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Error creating user" });
-    return;
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error creating user" });
   }
 
   // Return the new user object
-  res.status(201).json(databaseNewUser);
+  return res.status(201).json(databaseNewUser);
 };
 
 // Handles login functionality
@@ -42,12 +57,29 @@ exports.login = async (req, res, next) => {
   // Get login credentials from request
   const { username, password } = req.body;
 
-  // Make sure username exists in the database
-  const identifiedUser = await User.findOne({ username });
-  if (!identifiedUser || identifiedUser.password !== password) {
-    res.status(401).json({ error: "user not found" });
-    return;
-  }
+  try {
+    // Make sure username exists in the database
+    const identifiedUser = await User.findOne({ username });
+    if (!identifiedUser) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
 
-  res.json({ message: "Logged in!", user: identifiedUser });
+    // Check if password is valid for given username
+    const isValidPassword = await bcrypt.compare(
+      password,
+      identifiedUser.password
+    );
+
+    // Throw an error if password is invalid
+    if (!isValidPassword) {
+      return res.status(401).json({
+        error: "Invalid credentials",
+      });
+    }
+
+    return res.json({ message: "Logged in!", user: identifiedUser });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ error: "Server error: please try again" });
+  }
 };
