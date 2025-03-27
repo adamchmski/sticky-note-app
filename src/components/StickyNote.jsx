@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { updateSticky } from "../services/stickyService";
-import "./StickyNote.css";
+import "./StickyNote.css"; 
 
 /**
  * StickyNote Component
