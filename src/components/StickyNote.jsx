@@ -4,6 +4,18 @@ import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { updateSticky } from "../services/stickyService";
 import "./StickyNote.css";
 
+/**
+ * StickyNote Component
+ *
+ * A draggable, resizable sticky note that can be edited and saved to the server.
+ * Features include:
+ * - Drag and drop functionality
+ * - Resize capability
+ * - Text editing
+ * - Z-index management for layering
+ * - Debounced saving
+ *
+ */
 function StickyNote({
   _id,
   colorClass,
@@ -15,6 +27,7 @@ function StickyNote({
   maxZIndex,
   setMaxZIndex,
 }) {
+  // State management
   const [isEditable, setIsEditable] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [startPosition, setStartPosition] = useState({ x: 0, y: 0 });
@@ -22,10 +35,14 @@ function StickyNote({
   const [cardSize, setCardSize] = useState(initialSize);
   const [zIndex, setZIndex] = useState(initialZIndex);
   const [text, setText] = useState(initialText);
+
+  // Refs
   const cardRef = useRef(null);
   const saveTimeout = useRef(null);
 
-  // Handles saving a card to server upon change
+  /**
+   * Saves the current state of the sticky note to the server
+   */
   const saveCard = async () => {
     try {
       await updateSticky({
@@ -41,7 +58,10 @@ function StickyNote({
     }
   };
 
-  // Debounced save function
+  /**
+   * Debounced save function to prevent excessive API calls
+   * Waits 300ms after the last change before saving
+   */
   const debouncedSave = () => {
     clearTimeout(saveTimeout.current);
     saveTimeout.current = setTimeout(() => {
@@ -49,24 +69,34 @@ function StickyNote({
     }, 300);
   };
 
-  // Saves on sticky note properties state changes
+  /**
+   * Effect hook to save sticky note when its properties change
+   * Triggers on changes to position, size, z-index, or text
+   */
   useEffect(debouncedSave, [cardPosition, cardSize, zIndex, text]);
 
-  // Handles move to front functionality
+  /**
+   * Moves the sticky note to the front by updating its z-index
+   */
   const moveToFront = () => {
     const newZIndex = maxZIndex + 1;
     setZIndex(newZIndex);
     setMaxZIndex(newZIndex);
   };
 
-  // Starts dragging functionality when header is clicked
+  /**
+   * Handles the start of dragging operation
+   */
   const handleMouseDown = (e) => {
     setStartPosition({ x: e.clientX, y: e.clientY });
     setDragging(true);
     document.body.style.userSelect = "none"; // Disable text highlight when dragging
   };
 
-  // Core logic for dragging functionality
+  /**
+   * Effect hook to handle dragging functionality
+   * Updates position based on mouse movement
+   */
   useEffect(() => {
     if (!dragging) {
       return;
@@ -75,6 +105,9 @@ function StickyNote({
     let distanceFromTop = startPosition.y - cardRef.current.offsetTop;
     let distanceFromLeft = startPosition.x - cardRef.current.offsetLeft;
 
+    /**
+     * Updates position during mouse movement
+     */
     const mouseMove = (e) => {
       setIsEditable(false);
 
@@ -86,6 +119,9 @@ function StickyNote({
       setCardPosition({ x: newX, y: newY });
     };
 
+    /**
+     * Handles mouse up event to stop dragging
+     */
     const mouseUp = (e) => {
       setDragging(false);
       document.body.style.userSelect = ""; // Enable text highlight when done dragging
@@ -101,7 +137,10 @@ function StickyNote({
     };
   }, [dragging]);
 
-  // Handles resize tracking
+  /**
+   * Effect hook to track sticky note size changes
+   * Uses ResizeObserver to monitor size changes
+   */
   useEffect(() => {
     const card = cardRef.current;
     if (!card) return;
@@ -120,12 +159,17 @@ function StickyNote({
     };
   }, []);
 
-  // Handles text area changes
+  /**
+   * Handles text changes in the sticky note
+   */
   const handleTextAreaChange = (e) => {
     setText(e.target.value);
   };
 
-  // Cleanup timeout on unmount
+  /**
+   * Cleanup effect to clear any pending save timeouts
+   * Prevents memory leaks on component unmount
+   */
   useEffect(() => {
     return () => {
       if (saveTimeout.current) {
