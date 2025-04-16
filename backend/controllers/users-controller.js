@@ -1,5 +1,4 @@
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const User = require("../models/users");
 
 // Handles signup functionality
@@ -48,21 +47,10 @@ exports.signUp = async (req, res, next) => {
     return res.status(500).json({ error: "Error creating user" });
   }
 
-  let token;
-  token = jwt.sign(
-    {
-      userID: databaseNewUser._id,
-      username: databaseNewUser.username,
-    },
-    "supersecret_dont_share",
-    { expiresIn: "1h" }
-  );
-
   // Return the new user object
   return res.status(201).json({
     userID: databaseNewUser._id,
     username: databaseNewUser.username,
-    token: token,
   });
 };
 
@@ -91,20 +79,9 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    let token;
-    token = jwt.sign(
-      {
-        userID: identifiedUser._id,
-        username: identifiedUser.username,
-      },
-      "supersecret_dont_share",
-      { expiresIn: "1h" }
-    );
-
     return res.json({
       userID: identifiedUser._id,
       username: identifiedUser.username,
-      token: token,
     });
   } catch (error) {
     console.error("Login error:", error);
